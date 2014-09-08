@@ -6,5 +6,5 @@ addons:
 before_script:
   - npm install -g grunt-cli
   - psql -c 'create database ms_test;' -U postgres
-  - psql -d os_test -c 'CREATE EXTENSION "uuid-ossp";'
+  - psql -d ms_test -c 'CREATE EXTENSION "uuid-ossp";'
   - cp config/index.travis.js config/index.js
