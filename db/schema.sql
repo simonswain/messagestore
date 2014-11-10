@@ -1,19 +1,20 @@
 DROP TABLE IF EXISTS stream CASCADE;
+DROP TABLE IF EXISTS box CASCADE;
 DROP TABLE IF EXISTS msg CASCADE;
 
-CREATE TABLE stream (
+CREATE TABLE box (
        id varchar(36),
        attrs json
 );
 
-CREATE INDEX stream_id_idx ON stream (id);
+CREATE INDEX box_id_idx ON box (id);
 
 CREATE TABLE msg (
        id uuid primary key default uuid_generate_v4(),
-       stream_id varchar(36),
+       box_id varchar(36),
        at timestamp,
        data json
 );
 
 CREATE INDEX msg_id_idx ON msg (id);
-CREATE INDEX ids_idx ON msg (stream_id, id, at);
+CREATE INDEX ids_idx ON msg (box_id, id, at);

@@ -8,7 +8,7 @@ var api = os.api(config);
 
 var fooUuid = '00000000-0000-0000-0000-000000000000';
 
-var myStream, myMsg;
+var myBox, myMsg;
 
 exports.api = {
 
@@ -27,39 +27,39 @@ exports.api = {
   'stats': function(test) {
     test.expect(2);
     api.stats(function(err, res) {
-      test.equal(res.streams, 0);
+      test.equal(res.boxes, 0);
       test.equal(res.messages, 0);
       test.done();
     });
   },
 
-  'find-stream-none': function(test) {
+  'find-box-none': function(test) {
     test.expect(2);
-    api.getStream(
+    api.getBox(
       fooUuid,
-      function(err, stream) {
+      function(err, box) {
         test.equal(err, null);
-        test.equal(stream, false);
+        test.equal(box, false);
         test.done();
       });
   },
 
-  'add-stream': function(test){
+  'add-box': function(test){
     test.expect(1);
-    myStream = {
-      id: 'my-stream'
+    myBox = {
+      id: 'my-box'
     };
-    api.addStream(
-      myStream,
+    api.addBox(
+      myBox,
       function(err, res){
         test.equal(err, null);
         test.done();
       });
   },
 
-  'count-streams': function(test) {
+  'count-boxes': function(test) {
     test.expect(2);
-    api.countStreams(
+    api.countBoxes(
       function(err, res) {
         test.equal(err, null);
         test.equal(res, 1);
@@ -67,9 +67,9 @@ exports.api = {
       });
   },
 
-  'get-streams': function(test) {
+  'get-boxes': function(test) {
     test.expect(3);
-    api.getStreams(
+    api.getBoxes(
       function(err, res) {
         test.equal(err, null);
         test.equal(typeof res, 'object');
@@ -78,31 +78,31 @@ exports.api = {
       });
   },
 
-  'get-stream': function(test) {
+  'get-box': function(test) {
     test.expect(2);
-    api.getStream(
-      myStream.id,
+    api.getBox(
+      myBox.id,
       function(err, res) {
         test.equal(err, null);
-        test.equal(res.id, myStream.id);
+        test.equal(res.id, myBox.id);
         test.done();
       });
   },
 
-  'set-stream': function(test) {
+  'set-box': function(test) {
     test.expect(2);
-    myStream.attrs = {
+    myBox.attrs = {
       setting: 321
     };
-    api.setStream(
-      myStream.id,
-      myStream.attrs,
+    api.setBox(
+      myBox.id,
+      myBox.attrs,
       function(err, res) {
-        api.getStream(
-          myStream.id,
+        api.getBox(
+          myBox.id,
           function(err, res) {
             test.equal(err, null);
-            test.deepEqual(res.attrs, myStream.attrs);
+            test.deepEqual(res.attrs, myBox.attrs);
             test.done();
           });
       });
@@ -115,12 +115,12 @@ exports.api = {
       foo:'bar'
     };
     api.addMessage(
-      myStream.id,
+      myBox.id,
       myMsg,
       function(err, res) {
         myMsg.id = res.id;
         api.getMessage(
-          myStream.id,
+          myBox.id,
           res.id,
           function(err, res) {
             test.equal(err, null);
@@ -132,7 +132,7 @@ exports.api = {
   'count-messages': function(test) {
     test.expect(2);
     api.countMessages(
-      myStream.id,
+      myBox.id,
       function(err, res) {
         test.equal(err, null);
         test.equal(res, 1);
@@ -142,7 +142,7 @@ exports.api = {
   'get-messages': function(test) {
     test.expect(4);
     api.getMessages(
-      myStream.id,
+      myBox.id,
       function(err, res) {
         test.equal(err, null);
         test.equal(typeof res, 'object');
@@ -154,7 +154,7 @@ exports.api = {
   'get-message': function(test) {
     test.expect(2);
     api.getMessage(
-      myStream.id,
+      myBox.id,
       myMsg.id,
       function(err, res) {
         test.equal(err, null);
@@ -165,7 +165,7 @@ exports.api = {
   'stats-some': function(test) {
     test.expect(2);
     api.stats(function(err, res) {
-      test.equal(res.streams, 1);
+      test.equal(res.boxes, 1);
       test.equal(res.messages, 1);
       test.done();
     });
@@ -173,7 +173,7 @@ exports.api = {
   'del-message': function(test) {
     test.expect(1);
     api.delMessage(
-      myStream.id,
+      myBox.id,
       myMsg.id,
       function(err, res) {
         test.equal(err, null);
@@ -183,7 +183,7 @@ exports.api = {
   'get-deleted-message': function(test) {
     test.expect(2);
     api.getMessage(
-      myStream.id,
+      myBox.id,
       myMsg.id,
       function(err, res) {
         test.equal(err, null);
@@ -191,13 +191,13 @@ exports.api = {
         test.done();
       });
   },
-  'delete-stream': function(test) {
+  'delete-box': function(test) {
     test.expect(2);
-    api.delStream(
-      myStream.id,
+    api.delBox(
+      myBox.id,
       function(err) {
-        api.getStream(
-          myStream.id,
+        api.getBox(
+          myBox.id,
           function(err, res) {
             test.equal(err, null);
             test.equal(res, false);
@@ -205,10 +205,10 @@ exports.api = {
           });
       });
   },
-  'get-deleted-stream': function(test) {
+  'get-deleted-box': function(test) {
     test.expect(2);
-    api.getStream(
-      myStream.id,
+    api.getBox(
+      myBox.id,
       function(err, res) {
         test.equal(err, null);
         test.equal(res, false);
@@ -218,7 +218,7 @@ exports.api = {
   'stats-none': function(test) {
     test.expect(2);
     api.stats(function(err, res) {
-      test.equal(res.streams, 0);
+      test.equal(res.boxes, 0);
       test.equal(res.messages, 0);
       test.done();
     });
