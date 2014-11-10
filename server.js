@@ -1,7 +1,7 @@
-var os = require('./lib');
+var messagestore = require('./lib');
 var logger = require( './lib/logger');
 var config = require( './config');
-var server = os.server(config);
+var server = messagestore.server(config);
 
 server.start(function(){
   logger.log( 'info','Messagestore running on ' + config.host + ':' + config.port );

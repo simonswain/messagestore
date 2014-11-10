@@ -11,16 +11,19 @@ var fooUuid = '00000000-0000-0000-0000-000000000000';
 var myStream, myMsg;
 
 exports.api = {
+
   'reset': function(test) {
     api.reset(function() {
       test.done();
     });
   },
+
   'purge': function(test) {
     api.purge(function() {
       test.done();
     });
   },
+
   'stats': function(test) {
     test.expect(2);
     api.stats(function(err, res) {
@@ -29,6 +32,7 @@ exports.api = {
       test.done();
     });
   },
+
   'find-stream-none': function(test) {
     test.expect(2);
     api.getStream(
@@ -39,6 +43,7 @@ exports.api = {
         test.done();
       });
   },
+
   'add-stream': function(test){
     test.expect(1);
     myStream = {
@@ -51,6 +56,7 @@ exports.api = {
         test.done();
       });
   },
+
   'count-streams': function(test) {
     test.expect(2);
     api.countStreams(
@@ -60,6 +66,7 @@ exports.api = {
         test.done();
       });
   },
+
   'get-streams': function(test) {
     test.expect(3);
     api.getStreams(
@@ -70,6 +77,7 @@ exports.api = {
         test.done();
       });
   },
+
   'get-stream': function(test) {
     test.expect(2);
     api.getStream(
@@ -80,6 +88,7 @@ exports.api = {
         test.done();
       });
   },
+
   'set-stream': function(test) {
     test.expect(2);
     myStream.attrs = {
@@ -98,13 +107,12 @@ exports.api = {
           });
       });
   },
+
   'add-message': function(test) {
     test.expect(2);
     myMsg = {
       at: new Date(),
-      data: {
-        foo:'bar'
-      }
+      foo:'bar'
     };
     api.addMessage(
       myStream.id,
@@ -116,7 +124,7 @@ exports.api = {
           res.id,
           function(err, res) {
             test.equal(err, null);
-            test.deepEqual(res.data, myMsg.data);
+            test.equals(res.foo, myMsg.foo);
             test.done();
           });
       });
@@ -150,7 +158,7 @@ exports.api = {
       myMsg.id,
       function(err, res) {
         test.equal(err, null);
-        test.deepEqual(res.data, myMsg.data);
+        test.deepEqual(res.foo, myMsg.foo);
         test.done();
       });
   },
@@ -212,6 +220,11 @@ exports.api = {
     api.stats(function(err, res) {
       test.equal(res.streams, 0);
       test.equal(res.messages, 0);
+      test.done();
+    });
+  },
+  'quit': function(test) {
+    api.quit(function(err, res) {
       test.done();
     });
   }
