@@ -12,8 +12,10 @@ module.exports = function(grunt) {
     },
     jshint: {
       files: ['Gruntfile.js',
+              'config/index.sample.js',
               'db/**/*.js',
-              'lib/**/*.js',
+              'lib/*.js',
+              'lib/server/public/js/**/*.js',
               'test/**/*.js',
               'server.js'
              ],
@@ -55,7 +57,7 @@ module.exports = function(grunt) {
   grunt.registerTask('lint', ['jshint']);
 
   grunt.registerTask('test', ['jshint', 'env:test', 'nodeunit:core']);
- 
+
   grunt.registerTask('default', ['test']);
 
 
