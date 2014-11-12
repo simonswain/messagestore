@@ -14,17 +14,17 @@ exports.host = 'localhost';
 
 switch ( env ) {
 case 'test' :
-  exports.port = 8103;
+  exports.port = 8203;
   pg.database = nickname + '_test';
   break;
 
 case 'development' :
-  exports.port = 8102;
+  exports.port = 8202;
   pg.database = nickname + '_dev';
   break;
 
 case 'live' :
-  exports.port = 8101;
+  exports.port = 8201;
   pg.database = nickname + '_live';
   break;
 }
